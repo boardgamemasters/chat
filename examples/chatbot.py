@@ -48,6 +48,10 @@ with st.container():
         count +=1
         if selecthor == 0:
             message(response, is_user = True, key=f"a1{count}")
+            countdown = st.empty()
+            for i in range(10):
+                countdown.markdown(f'### {10-i}')
+                time.sleep(1)
             if games.isin([response]).all():
                 sel_game = response
                 selecthor = 1
@@ -59,6 +63,10 @@ with st.container():
         if selecthor == 1:
             message(st.session_state.questions[2])
             message(response2, is_user = True, key=f"a2{count}")
+            countdown = st.empty()
+            for i in range(10):
+                countdown.markdown(f'### {10-i}')
+                time.sleep(1)          
             if response.isnumeric():
                 alt = response2
                 selecthor = 2
@@ -76,6 +84,10 @@ with st.container():
             selecthor = 3
         if selecthor== 3:
             message(response3, is_user = True, key=f"a3{count}")
+            countdown = st.empty()
+            for i in range(10):
+                countdown.markdown(f'### {10-i}')
+                time.sleep(1)          
             if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response3]).all():
                 message('I can recommend you the following games:')
                 response3 = ''
