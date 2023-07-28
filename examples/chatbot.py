@@ -1,5 +1,5 @@
 import streamlit as st
-import sleep from time
+from time import sleep 
 import pandas as pd
 from streamlit_chat import message
 
