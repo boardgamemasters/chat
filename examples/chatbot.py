@@ -45,7 +45,7 @@ with st.container():
     response3 = ''
     count =0
     while 1==1:
-        count =+1
+        count +=1
         if selecthor == 0:
             message(response, is_user = True, key=f"a1{count}")
             if games.isin([response]).all():
