@@ -1,7 +1,8 @@
 import streamlit as st
-
+import pandas as pd
 from streamlit_chat import message
-liste = ['hallo', 'was']
+
+liste = pd.Series(['hallo', 'was'])
 game = ''
 alt = ''
 selecthor = 0
