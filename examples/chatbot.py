@@ -13,6 +13,7 @@ def on_input_change():
 def on_btn_click():
     del st.session_state['questions']
     del st.session_state['responses']
+    selecthor = 0
 
 st.session_state.setdefault('questions', [])
 
@@ -40,43 +41,25 @@ message(st.session_state.questions[0])
 
 with st.container():
     selecthor = 0
-    response = ''
-    response2 = ''
-    response3 = ''
     count =0
     # while 1==1:
-    for _ in (st.session_state.responses):
+    for response in (st.session_state.responses):
         count +=1
         if selecthor == 0:
             message(response, is_user = True, key=f"a1{count}")
-            # countdown = st.empty()
-            for i in range(10):
-                # countdown.markdown(f'### {10-i}')
-                sleep(1)
             if games.isin([response]).all():
                 sel_game = response
                 selecthor = 1
-                response = ''
-            elif response == '':
-                response = ''
             else:
                 message(st.session_state.questions[1])
         if selecthor == 1:
             message(st.session_state.questions[2])
-            message(response2, is_user = True, key=f"a2{count}")
-            # countdown = st.empty()
-            for i in range(10):
-                # countdown.markdown(f'### {10-i}')
-                sleep(1)          
+            message(response, is_user = True, key=f"a2{count}")
             if response.isnumeric():
-                alt = response2
+                alt = response
                 selecthor = 2
-                response2 = ''
-            elif response2 == '':
-                response2 = ''
             else:
                 message('Please enter a numeric value')
-                response2 = ''
         if selecthor== 2:
             message(f'''Your favorite boardgame is {sel_game}.
             And you would like to get {alt} recommendations for similar games.
@@ -84,25 +67,15 @@ with st.container():
             (y) , (n)''')
             selecthor = 3
         if selecthor== 3:
-            message(response3, is_user = True, key=f"a3{count}")
-            # countdown = st.empty()
-            for i in range(10):
-                # countdown.markdown(f'### {10-i}')
-                sleep(1)          
-            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response3]).all():
+            message(response, is_user = True, key=f"a3{count}")  
+            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).all():
                 message('I can recommend you the following games:')
-                response3 = ''
-            elif response3 == '':
-                response3 = ''
-            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response3]).all():
+            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).all():
                 message('Lets try again')
                 selecthor = 0
-                response3 = ''
             else:
                 message(f'''{response3} is not a valid input. Please try again
                 What is your favorite Boardgame?''')
-                response3 = ''
-                
                 
                      
                    
