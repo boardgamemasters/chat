@@ -41,6 +41,8 @@ message(st.session_state.questions[0])
 with st.container():
     selecthor = 0
     response = ''
+    response2 = ''
+    response3 = ''
     while 1==1:
         if selecthor == 0:
             message(response, is_user = True)
@@ -54,16 +56,16 @@ with st.container():
                 message(st.session_state.questions[1])
         if selecthor == 1:
             message(st.session_state.questions[2])
-            message(response, is_user = True)
+            message(response2, is_user = True)
             if response.isnumeric():
-                alt = response
+                alt = response2
                 selecthor = 2
-                response = ''
-            elif response == '':
-                response = ''
+                response2 = ''
+            elif response2 == '':
+                response2 = ''
             else:
                 message('Please enter a numeric value')
-                response = ''
+                response2 = ''
         if selecthor== 2:
             message(f'''Your favorite boardgame is {sel_game}.
             And you would like to get {alt} recommendations for similar games.
@@ -71,20 +73,20 @@ with st.container():
             (y) , (n)''')
             selecthor = 3
         if selecthor== 3:
-            message(response, is_user = True)
-            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).all():
+            message(response3, is_user = True)
+            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response3]).all():
                 message('I can recommend you the following games:')
-                response = ''
-            elif response == '':
-                response = ''
-            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).all():
+                response3 = ''
+            elif response3 == '':
+                response3 = ''
+            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response3]).all():
                 message('Lets try again')
                 selecthor = 0
-                response = ''
+                response3 = ''
             else:
                 message(f'''{response3} is not a valid input. Please try again
                 What is your favorite Boardgame?''')
-                response = ''
+                response3 = ''
                 
                 
                      
