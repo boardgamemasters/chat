@@ -13,7 +13,8 @@ def on_btn_click():
 st.session_state.setdefault('questions', [])
 
 st.title("Survey QA Bot")
-questions_list = ['question 1', 'question 2', 'question 3']
+questions_list = ['''I would like to recommend you some Boardgames. 
+Do you have a favorite one?''', 'How many Games should i recommend for you?', 'Do you want to get more recommendations?']
 
 if 'responses' not in st.session_state.keys():
     st.session_state.questions.extend(questions_list)
