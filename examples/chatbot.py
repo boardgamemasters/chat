@@ -1,20 +1,47 @@
 import streamlit as st
 
 from streamlit_chat import message
-
-def on_input_change():
+liste = ['hallo', 'was']
+game = ''
+alt = ''
+selecthor = 0
+def on_input_change(x=selecthor):
     user_input = st.session_state.user_input
     st.session_state.responses.append(user_input)
+    if x=0:
+        if liste.loc[liste.isin(user_input)]:
+            game = user_input
+            selecthor = 1
+        else:
+            message('I dont know this game. Please enter another Boardgame')
+    if x =1:
+        if user_input.isnumeric():
+            if user_input > 4:
+                alt = 4
+                message('I can only recommend 4 Games at a time. So I will do so.')
+                selecthor = 2
+            if user_input <1:
+                alt = 1
+                message('I have to recommend you at least 1 Game. So I will do so.')
+                selecthor = 2
+            else:
+                alt = user_input
+                selecthor = 2
+        else:
+            message('Please enter a numeric Value')
+        
 
 def on_btn_click():
     del st.session_state['questions']
     del st.session_state['responses']
+    game = ''
+    alt = ''
 
 st.session_state.setdefault('questions', [])
 
 st.title("Survey QA Bot")
 questions_list = ['''I would like to recommend you some Boardgames. 
-Do you have a favorite one?''', 'How many Games should i recommend for you?', f'''You want {st.session_state.responses[1]} for Games like {st.session_state.responses[0]}.
+Do you have a favorite one?''', 'How many Games should i recommend for you?', f'''You want {alt} for Games like {game}.
 Is that Correct?''','Do you want to get more recommendations?']
 
 if 'responses' not in st.session_state.keys():
