@@ -40,22 +40,30 @@ message(st.session_state.questions[0])
 
 with st.container():
     selecthor = 0
+    response = ''
     while 1==1:
         if selecthor == 0:
             message(response, is_user = True)
             if games.isin([response]):
                 sel_game = response
                 selecthor = 1
+                response = ''
+            elif response == '':
+                response = ''
             else:
                 message(st.session_state.questions[1])
         if selecthor == 1:
             message(st.session_state.questions[2])
-            message(response2, is_user = True)
-            if response2.isnumeric():
-                alt = response2
+            message(response, is_user = True)
+            if response.isnumeric():
+                alt = response
                 selecthor = 2
+                response = ''
+            elif response == '':
+                response = ''
             else:
                 message('Please enter a numeric value')
+                response = ''
         if selecthor== 2:
             message(f'''Your favorite boardgame is {sel_game}.
             And you would like to get {alt} recommendations for similar games.
@@ -63,15 +71,20 @@ with st.container():
             (y) , (n)''')
             selecthor = 3
         if selecthor== 3:
-            message(response3, is_user = True)
-            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([selecthor3]):
+            message(response, is_user = True)
+            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]):
                 message('I can recommend you the following games:')
-            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([selecthor3]):
+                response = ''
+            elif response == '':
+                response = ''
+            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]):
                 message('Lets try again')
                 selecthor = 0
+                response = ''
             else:
                 message(f'''{response3} is not a valid input. Please try again
                 What is your favorite Boardgame?''')
+                response = ''
                 
                 
                      
