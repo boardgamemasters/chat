@@ -51,7 +51,7 @@ with st.container():
             countdown = st.empty()
             for i in range(10):
                 countdown.markdown(f'### {10-i}')
-                time.sleep(1)
+                sleep(1)
             if games.isin([response]).all():
                 sel_game = response
                 selecthor = 1
@@ -66,7 +66,7 @@ with st.container():
             countdown = st.empty()
             for i in range(10):
                 countdown.markdown(f'### {10-i}')
-                time.sleep(1)          
+                sleep(1)          
             if response.isnumeric():
                 alt = response2
                 selecthor = 2
@@ -87,7 +87,7 @@ with st.container():
             countdown = st.empty()
             for i in range(10):
                 countdown.markdown(f'### {10-i}')
-                time.sleep(1)          
+                sleep(1)          
             if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response3]).all():
                 message('I can recommend you the following games:')
                 response3 = ''
