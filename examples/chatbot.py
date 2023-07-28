@@ -14,7 +14,8 @@ st.session_state.setdefault('questions', [])
 
 st.title("Survey QA Bot")
 questions_list = ['''I would like to recommend you some Boardgames. 
-Do you have a favorite one?''', 'How many Games should i recommend for you?', 'Do you want to get more recommendations?']
+Do you have a favorite one?''', 'How many Games should i recommend for you?', f'''You want {st.session_state.responses[1]} for Games like {st.session_state.responses[0]}.
+Is that Correct?''','Do you want to get more recommendations?']
 
 if 'responses' not in st.session_state.keys():
     st.session_state.questions.extend(questions_list)
