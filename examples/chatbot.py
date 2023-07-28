@@ -8,7 +8,7 @@ selecthor = 0
 def on_input_change(x=selecthor):
     user_input = st.session_state.user_input
     st.session_state.responses.append(user_input)
-    if x=0:
+    if x==0:
         if liste.loc[liste.isin(user_input)]:
             game = user_input
             selecthor = 1
