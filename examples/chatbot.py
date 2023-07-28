@@ -50,15 +50,20 @@ with st.container():
             if games.isin([response]).any():
                 sel_game = response
                 selecthor = 1
+                message(st.session_state.questions[2], key=f"b2{count}")  
                 continue
             else:
                 message(st.session_state.questions[1], key=f"b1{count}")
         if selecthor == 1:
-            message(st.session_state.questions[2], key=f"b2{count}")
+            # message(st.session_state.questions[2], key=f"b2{count}")
             message(response, is_user = True, key=f"a2{count}")
             if response.isnumeric():
                 alt = response
                 selecthor = 2
+                message(f'''Your favorite boardgame is {sel_game}.
+                And you would like to get {alt} recommendations for similar games.
+                Is that correct?
+                (y) , (n)''', key=f"b4{count}")
                 continue
             else:
                 message('Please enter a numeric value', key=f"b3{count}")
