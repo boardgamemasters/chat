@@ -50,7 +50,7 @@ with st.container():
             if games.isin([response]).any():
                 sel_game = response
                 selecthor = 1
-                continue()
+                continue
             else:
                 message(st.session_state.questions[1], key=f"b1{count}")
         if selecthor == 1:
@@ -59,7 +59,7 @@ with st.container():
             if response.isnumeric():
                 alt = response
                 selecthor = 2
-                continue()
+                continue
             else:
                 message('Please enter a numeric value', key=f"b3{count}")
         if selecthor== 2:
@@ -68,7 +68,7 @@ with st.container():
             Is that correct?
             (y) , (n)''', key=f"b4{count}")
             selecthor = 3
-            continue()
+            continue
         if selecthor== 3:
             message(response, is_user = True, key=f"a3{count}")  
             if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).any():
@@ -76,12 +76,12 @@ with st.container():
             elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).any():
                 message('Lets try again', key=f"b6{count}")
                 selecthor = 0
-                continue()
+                continue
             else:
                 message(f'''{response} is not a valid input. Please try again
                 What is your favorite Boardgame?''', key=f"b7{count}")
                 selecthor = 0
-                continue()
+                continue
                 
                      
                    
