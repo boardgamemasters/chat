@@ -74,7 +74,7 @@ with st.container():
                 message('Lets try again', key=f"b6{count}")
                 selecthor = 0
             else:
-                message(f'''{response3} is not a valid input. Please try again
+                message(f'''{response} is not a valid input. Please try again
                 What is your favorite Boardgame?''', key=f"b7{count}")
                 
                      
