@@ -13,7 +13,17 @@ def on_btn_click():
 st.session_state.setdefault('questions', [])
 
 st.title("Survey QA Bot")
-questions_list = ['question 1', 'question 2', 'question 3']
+questions_list = [
+    # 0
+    '''I would like to recommend you some Boardgames.
+    What is your favorite one?'''    
+    # 1
+    , '''I dont know this Game.
+    Please enter another one'''
+    # 2
+    , '''How many recommendations do you want to get?
+    'Please enter a Number between 1 and 5'''
+]
 
 if 'responses' not in st.session_state.keys():
     st.session_state.questions.extend(questions_list)
@@ -27,6 +37,7 @@ message(st.session_state.questions[0])
 with st.container():
     for response, question in zip(st.session_state.responses, st.session_state.questions[1:]):
         message(response, is_user = True)
+        message(response)
         message(question)
 
 
