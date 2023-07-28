@@ -32,6 +32,8 @@ questions_list = [
 if 'responses' not in st.session_state.keys():
     st.session_state.questions.extend(questions_list)
     st.session_state.responses = []
+    st.session_state.responses2 = []
+    st.session_state.responses3 = []
 
 chat_placeholder = st.empty()
 st.button("Clear message", on_click=on_btn_click)
@@ -44,7 +46,8 @@ with st.container():
     response2 = ''
     response3 = ''
     count =0
-    while 1==1:
+    # while 1==1:
+    for resonse, response2, response3 in zip(st.session_state.responses, st.session_state.responses2, st.session_state.responses3):
         count +=1
         if selecthor == 0:
             message(response, is_user = True, key=f"a1{count}")
