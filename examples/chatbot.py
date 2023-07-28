@@ -20,7 +20,7 @@ if 'past' not in st.session_state:
     st.session_state['past'] = []
 
 def query(payload):
-	response = requests.post(API_URL, headers=headers, json=payload)
+	response = requests.post(API_URL, json=payload)	#	headers=headers, 
 	return response.json()
 
 def get_text():
