@@ -1,98 +1,98 @@
 import streamlit as st
-
+import pandas as pd
+import ameyfun as amey
 from streamlit_chat import message
 
-def on_input_change():
-    user_input = st.session_state.user_input
-    st.session_state.responses.append(user_input)
-
-def on_btn_click():
-    del st.session_state['questions']
-    del st.session_state['responses']
-
-st.session_state.setdefault('questions', [])
-
-st.title("Survey QA Bot")
-questions_list = [
-    # 0
-    '''I would like to recommend you some Boardgames.
-    What is your favorite one?'''    
-    # 1
-    , '''I dont know this Game.
-    Please enter another one'''
-    # 2
-    , '''How many recommendations do you want to get?
-    'Please enter a Number between 1 and 5'''
-]
-
-if 'responses' not in st.session_state.keys():
-    st.session_state.questions.extend(questions_list)
-    st.session_state.responses = []
-
-chat_placeholder = st.empty()
-st.button("Clear message", on_click=on_btn_click)
-
-message(st.session_state.questions[0]) 
-
-with st.container():
-    for response, question in zip(st.session_state.responses, st.session_state.questions[1:]):
-        message(response, is_user = True)
-        message(response)
-        message(question)
+# Load the data
+@st.cache_data
+def data_load():
+    rating_df = pd.read_csv('data/final_ratings_v3.csv')
+    games_df = pd.read_csv('data/game_learn_df_v3.csv')
+    users_df = pd.read_csv('data/usernames_v2.csv')
+    games_info = pd.read_csv('data/bgref.csv')
+    cosine_df = pd.read_csv('data/bg_cosines_final.csv')
+    final_df = pd.read_csv('data/bg_final_data.csv')
+    return rating_df, games_df, users_df, games_info, cosine_df, final_df
 
 
-with st.container():
-    st.text_input("User Response:", on_change=on_input_change, key="user_input")
+rating_df, games_df, users_df, games_info, cosine_df, final_df = data_load()
 
+# Function to find the correct category of the favorite game
+def find_right_category(favorite_game, data):
+    for i, row in data.iterrows():
+        if favorite_game.lower() in row['game_name_lower']:
+            return row['consolidated_category_name']
 
-# import streamlit as st
-# from streamlit_chat import message
-# import requests
-# from streamlit.components.v1 import html
+def game_recommendation(user_favorite_game, data, z=6):
+    # Find the right category of the favorite game
+    right_category_info = find_right_category(user_favorite_game, data)
 
-# st.set_page_config(
-#     page_title="Streamlit Chat - Demo",
-#     page_icon=":robot:"
-# )
+    # Extract the categories of the favorite game
+    favorite_game_categories = eval(right_category_info)  # Extract list in cell as unique values
 
-# API_URL = "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill"
-# # headers = {"Authorization": st.secrets['api_key']}
+    # Find games with at least one shared category from the favorite game's categories
+    similar_games_with_shared_category = data[data['consolidated_category_name'].apply(lambda x: any(cat in x for cat in favorite_game_categories))]
+    similar_games_with_shared_category = similar_games_with_shared_category[similar_games_with_shared_category['game_name'] != user_favorite_game]
 
-# st.header("Streamlit Chat - Demo")
-# st.markdown("[Github](https://github.com/ai-yash/st-chat)")
+    # Convert consolidated_category_name to list of strings
+    similar_games_with_shared_category['consolidated_category_name'] = similar_games_with_shared_category['consolidated_category_name'].apply(eval)
 
-# if 'generated' not in st.session_state:
-#     st.session_state['generated'] = []
+    # Convert the categories of each game into binary vectors using MultiLabelBinarizer
+    mlb = MultiLabelBinarizer()
+    similar_games_category_vectors = mlb.fit_transform(similar_games_with_shared_category['consolidated_category_name'])
+    user_favorite_game_category_vector = mlb.transform([favorite_game_categories])
 
-# if 'past' not in st.session_state:
-#     st.session_state['past'] = []
+    # Calculate cosine similarity between user favorite game and all other games
+    similarity_scores = cosine_similarity(user_favorite_game_category_vector, similar_games_category_vectors)
 
-# def query(payload):
-# 	response = requests.post(API_URL, json=payload)	#	headers=headers, 
-# 	return response.json()
+    # Get the similarity scores for the user favorite game with all other games
+    user_similarity_scores = similarity_scores[0]
 
-# def get_text():
-#     input_text = st.text_input("You: ","Hello, how are you?", key="input")
-#     return input_text 
+    # Sort the indices based on similarity scores in descending order
+    sorted_indices = np.argsort(user_similarity_scores)[::-1]
 
+    # Get the bgg_id of the top z similar games
+    similar_game_bgg_ids = similar_games_with_shared_category.iloc[sorted_indices[:z]]['bgg_id'].tolist()
 
-# user_input = get_text()
+    return similar_game_bgg_ids
 
-# if user_input:
-#     output = query({
-#         "inputs": {
-#             "past_user_inputs": st.session_state.past,
-#             "generated_responses": st.session_state.generated,
-#             "text": user_input,
-#         },"parameters": {"repetition_penalty": 1.33},
-#     })
+# Chatbot function
+def chatbot():
+    st.title("Game Recommendation Chatbot")
+    st.write("Welcome! Let's start chatting.")
 
-#     st.session_state.past.append(user_input)
-#     st.session_state.generated.append(output["generated_text"])
+    chat_history = []
 
-# if st.session_state['generated']:
+    # Chat loop
+    loopy = 0
+    while True:
+        loopy += 1
+        key_a = f'blabla{loopy}'
+        key_b = f'boob{loopy}'
 
-#     for i in range(len(st.session_state['generated'])-1, -1, -1):
-#         message(st.session_state["generated"][i], key=str(i))
-#         message(st.session_state['past'][i], is_user=True, key=str(i) + '_user')
+        # Ask for user's favorite game directly
+        user_favorite_game = st.text_input("Please enter the name of the game that you like:", key=key_a)
+
+        if user_favorite_game.strip():  # Check if the favorite game is not empty or only whitespace
+            # Recommend games based on the user's favorite game
+            recommended_game_ids = game_recommendation(user_favorite_game, final_df)
+            recommended_games = final_df[final_df['bgg_id'].isin(recommended_game_ids)]['game_name'].tolist()
+
+            # Add user input to chat history
+            chat_history.append(("User", user_favorite_game))
+            # Add robot response to chat history
+            chat_history.append(("Robot", f"Based on your favorite game '{user_favorite_game}', I recommend the following games: {', '.join(recommended_games)}. Enjoy gaming!"))
+
+            # Display the last robot response
+            if chat_history:
+                last_sender, last_message = chat_history[-1]
+                if last_sender == "Robot":
+                    st.text_area("Robot:", value=last_message, key="robot-response", disabled=True)
+
+        # Break the chat loop if user input is "quit"
+        if user_favorite_game.lower() == "quit":
+            break
+
+if __name__ == "__main__":
+    chatbot()
 
