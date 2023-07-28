@@ -59,7 +59,7 @@ with st.container():
             message(response, is_user = True, key=f"a2{count}")
             if response.isnumeric():
                 alt = response
-                selecthor = 2
+                selecthor = 3
                 message(f'''Your favorite boardgame is {sel_game}.
                 And you would like to get {alt} recommendations for similar games.
                 Is that correct?
@@ -68,10 +68,10 @@ with st.container():
             else:
                 message('Please enter a numeric value', key=f"b3{count}")
         if selecthor== 2:
-            message(f'''Your favorite boardgame is {sel_game}.
-            And you would like to get {alt} recommendations for similar games.
-            Is that correct?
-            (y) , (n)''', key=f"b4{count}")
+            # message(f'''Your favorite boardgame is {sel_game}.
+            # And you would like to get {alt} recommendations for similar games.
+            # Is that correct?
+            # (y) , (n)''', key=f"b4{count}")
             selecthor = 3
             continue
         if selecthor== 3:
