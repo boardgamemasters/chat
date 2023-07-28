@@ -14,7 +14,7 @@ def on_input_change(x=selecthor):
             selecthor = 1
         else:
             message('I dont know this game. Please enter another Boardgame')
-    if x =1:
+    if x ==1:
         if user_input.isnumeric():
             if user_input > 4:
                 alt = 4
