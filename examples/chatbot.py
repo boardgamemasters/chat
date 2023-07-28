@@ -44,7 +44,7 @@ with st.container():
     while 1==1:
         if selecthor == 0:
             message(response, is_user = True)
-            if games.isin([response]):
+            if games.isin([response]).all():
                 sel_game = response
                 selecthor = 1
                 response = ''
@@ -72,12 +72,12 @@ with st.container():
             selecthor = 3
         if selecthor== 3:
             message(response, is_user = True)
-            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]):
+            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).all():
                 message('I can recommend you the following games:')
                 response = ''
             elif response == '':
                 response = ''
-            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]):
+            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).all():
                 message('Lets try again')
                 selecthor = 0
                 response = ''
