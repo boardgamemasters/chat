@@ -45,7 +45,7 @@ with st.container():
     response3 = ''
     while 1==1:
         if selecthor == 0:
-            message(response, is_user = True)
+            message(response, is_user = True, key="a1")
             if games.isin([response]).all():
                 sel_game = response
                 selecthor = 1
@@ -56,7 +56,7 @@ with st.container():
                 message(st.session_state.questions[1])
         if selecthor == 1:
             message(st.session_state.questions[2])
-            message(response2, is_user = True)
+            message(response2, is_user = True, key="a2")
             if response.isnumeric():
                 alt = response2
                 selecthor = 2
@@ -73,7 +73,7 @@ with st.container():
             (y) , (n)''')
             selecthor = 3
         if selecthor== 3:
-            message(response3, is_user = True)
+            message(response3, is_user = True, key="a3")
             if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response3]).all():
                 message('I can recommend you the following games:')
                 response3 = ''
@@ -93,7 +93,7 @@ with st.container():
                    
     
     # for response, question in zip(st.session_state.responses, st.session_state.questions[1:]):
-    #     message(response, is_user = True)
+    #     message(response, )
     #     message(response)
     #     message(question)
 
