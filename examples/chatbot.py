@@ -51,31 +51,31 @@ with st.container():
                 sel_game = response
                 selecthor = 1
             else:
-                message(st.session_state.questions[1])
+                message(st.session_state.questions[1], key=f"b1{count}")
         if selecthor == 1:
-            message(st.session_state.questions[2])
+            message(st.session_state.questions[2], key=f"b2{count}")
             message(response, is_user = True, key=f"a2{count}")
             if response.isnumeric():
                 alt = response
                 selecthor = 2
             else:
-                message('Please enter a numeric value')
+                message('Please enter a numeric value', key=f"b3{count}")
         if selecthor== 2:
             message(f'''Your favorite boardgame is {sel_game}.
             And you would like to get {alt} recommendations for similar games.
             Is that correct?
-            (y) , (n)''')
+            (y) , (n)''', key=f"b4{count}")
             selecthor = 3
         if selecthor== 3:
             message(response, is_user = True, key=f"a3{count}")  
             if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).any():
-                message('I can recommend you the following games:')
+                message('I can recommend you the following games:', key=f"b5{count}")
             elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).any():
-                message('Lets try again')
+                message('Lets try again', key=f"b6{count}")
                 selecthor = 0
             else:
                 message(f'''{response3} is not a valid input. Please try again
-                What is your favorite Boardgame?''')
+                What is your favorite Boardgame?''', key=f"b7{count}")
                 
                      
                    
