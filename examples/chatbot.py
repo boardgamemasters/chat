@@ -5,7 +5,7 @@ from streamlit_chat import message
 liste = pd.Series(['hallo', 'was'])
 
 
-def on_input_change(x=selecthor):
+def on_input_change():
     user_input = st.session_state.user_input
     st.session_state.responses.append(user_input)
         
