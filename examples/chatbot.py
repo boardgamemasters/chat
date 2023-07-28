@@ -47,7 +47,7 @@ with st.container():
         count +=1
         if selecthor == 0:
             message(response, is_user = True, key=f"a1{count}")
-            if games.isin([response]).all():
+            if games.isin([response]).any():
                 sel_game = response
                 selecthor = 1
             else:
@@ -68,9 +68,9 @@ with st.container():
             selecthor = 3
         if selecthor== 3:
             message(response, is_user = True, key=f"a3{count}")  
-            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).all():
+            if (pd.Series(['y', 'Y', 'yes', 'Yes'])).isin([response]).any():
                 message('I can recommend you the following games:')
-            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).all():
+            elif (pd.Series(['n', 'N', 'no', 'No'])).isin([response]).any():
                 message('Lets try again')
                 selecthor = 0
             else:
